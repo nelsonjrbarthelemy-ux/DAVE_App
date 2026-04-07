@@ -1,0 +1,22 @@
+{
+  "name": "DAVE – Digital Business Card",
+  "short_name": "DAVE",
+  "description": "Share your professional contact info instantly via QR code, NFC, or link.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#07080B",
+  "theme_color": "#07080B",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
