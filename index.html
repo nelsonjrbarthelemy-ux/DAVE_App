@@ -7,6 +7,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
 <meta name="apple-mobile-web-app-title" content="DAVE"/>
+<link rel="manifest" href="/manifest.json"/>
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png"/>
 <meta name="mobile-web-app-capable" content="yes"/>
 <meta name="theme-color" content="#07080B"/>
 <meta property="og:title" content="Nelson Junior Barthelemy — Financial Advisor"/>
@@ -743,7 +746,7 @@ font-size:13px;cursor:pointer;
         <div class="qr-role" id="qrRole">Financial Advisor & Wealth Strategist</div>
       </div>
       <div class="qr-url" onclick="copyLink()">
-        <span>🔗</span><span id="qrSlug">dave.app/nelson-barthelemy</span>
+        <span>🔗</span><span id="qrSlug">fancy-baklava-c09388.netlify.app</span>
       </div>
     </div>
     <div class="scroll-hint"><span>scroll for more</span><span>↓</span></div>
@@ -830,11 +833,12 @@ font-size:13px;cursor:pointer;
     <div class="share-link-wrap">
       <div class="sec-label" style="margin-bottom:12px;">Your Personal Link</div>
       <div class="link-row">
-        <span class="link-url" id="shareLink">dave.app/nelson-barthelemy</span>
+        <span class="link-url" id="shareLink">fancy-baklava-c09388.netlify.app</span>
         <button class="copy-btn" onclick="copyLink()">Copy</button>
       </div>
     </div>
     <div class="share-options">
+      <div class="srow" id="nativeShareBtn" onclick="nativeShare()" style="display:none;background:linear-gradient(135deg,#C9A84C,#7A5010) !important;color:#07080B !important;font-weight:600;"><span class="srow-ico">📤</span><span>Share Link</span></div>
       <div class="srow" onclick="shareVia('whatsapp')"><span class="srow-ico">💬</span><span>Share via WhatsApp</span></div>
       <div class="srow" onclick="shareVia('email')"><span class="srow-ico">✉️</span><span>Share via Email</span></div>
       <div class="srow" onclick="shareVia('sms')"><span class="srow-ico">📱</span><span>Share via SMS / iMessage</span></div>
@@ -1262,8 +1266,8 @@ function applyProfile() {
   // Name & role
   document.getElementById('qrName').innerHTML  = P.fn + ' <em>' + P.mn + '</em> ' + P.ln;
   document.getElementById('qrRole').textContent = P.title;
-  document.getElementById('qrSlug').textContent = 'dave.app/' + sl;
-  document.getElementById('shareLink').textContent = 'dave.app/' + sl;
+  document.getElementById('qrSlug').textContent = 'fancy-baklava-c09388.netlify.app';
+  document.getElementById('shareLink').textContent = 'fancy-baklava-c09388.netlify.app';
   // Contact
   document.getElementById('dpT').textContent = P.phone;
   document.getElementById('deT').textContent = P.email;
@@ -1365,7 +1369,7 @@ function removePhoto() {
 function buildQR() {
   const box = document.getElementById('qrcode');
   box.innerHTML = '';
-  const qrText = 'https://dave.app/' + slug() + '/' + MY_UID;
+  const qrText = 'https://fancy-baklava-c09388.netlify.app';
   // Try QRCode library first
   if (typeof QRCode !== 'undefined') {
     try {
@@ -1442,7 +1446,7 @@ function copyUID() {
 }
 
 function copyLink() {
-  const link = 'https://' + document.getElementById('shareLink').textContent;
+  const link = 'https://fancy-baklava-c09388.netlify.app';
   try { navigator.clipboard.writeText(link); } catch(e) { try { window.prompt("Copy your DAVE link:", link); } catch(e2) {} }
   toast('Link copied!');
 }
@@ -1454,7 +1458,7 @@ function downloadQR() {
 }
 
 function shareVia(m) {
-  const link = 'https://' + document.getElementById('shareLink').textContent;
+  const link = 'https://fancy-baklava-c09388.netlify.app';
   const msg  = 'Connect with me on DAVE! My card: ' + link + ' | My DAVE ID: ' + MY_UID;
   const u = {
     whatsapp: 'https://wa.me/?text=' + encodeURIComponent(msg),
@@ -1463,6 +1467,19 @@ function shareVia(m) {
   };
   if (u[m]) window.open(u[m], '_blank');
   toast('Opening ' + m + '...');
+}
+
+function nativeShare() {
+  var shareData = {
+    title: P.fn + ' ' + P.ln + ' — ' + P.title,
+    text: 'Connect with me on DAVE! View my digital business card.',
+    url: 'https://fancy-baklava-c09388.netlify.app'
+  };
+  navigator.share(shareData).then(function() {
+    toast('Shared successfully!');
+  }).catch(function(e) {
+    if (e.name !== 'AbortError') toast('Share cancelled');
+  });
 }
 
 // ══════════════════════════════════════
@@ -2108,6 +2125,10 @@ document.addEventListener('DOMContentLoaded', function() {
   tick(); setInterval(tick, 1000);
   applyProfile();
   renderConns();
+  // Show native share button on devices that support it (iOS Safari, Android Chrome)
+  if (navigator.share) {
+    document.getElementById('nativeShareBtn').style.display = '';
+  }
 });
 </script>
 
