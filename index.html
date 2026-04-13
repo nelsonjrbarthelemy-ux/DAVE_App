@@ -356,7 +356,6 @@ transition: box-shadow 0.3s ease;
 }
 .qr-frame-wrap:hover { box-shadow: 0 16px 48px rgba(0,0,0,0.6), 0 0 0 1px rgba(200,151,74,0.25); }
 #qrcode { display: flex; justify-content: center; }
-#qrcode canvas, #qrcode img { border-radius: 8px; display: block; }
 
 .qr-link-pill {
 display: flex;
@@ -1296,6 +1295,18 @@ letter-spacing: 0.02em;
 /* Cover photo */
 #coverPhotoWrap { transition: opacity 0.2s; }
 #coverPhotoWrap:active { opacity: 0.85; }
+
+/* QR Code — fills container with zero gaps */
+#qrcode { display:block; line-height:0; font-size:0; }
+#qrcode table { margin:0 !important; border-spacing:0 !important; }
+#qrcode canvas, #qrcode img {
+display: block !important;
+width: 100% !important;
+height: auto !important;
+margin: 0 !important;
+padding: 0 !important;
+border-radius: 18px;
+}
 </style>
 
 </head>
@@ -1336,10 +1347,10 @@ letter-spacing: 0.02em;
   </div>
 </div>
 
-<!-- BIG QR CODE — full width, minimal padding, aesthetic -->
+<!-- BIG QR CODE — zero padding, fills frame completely -->
 <div style="display:flex;justify-content:center;padding:0 20px 16px;">
-  <div style="background:#fff;border-radius:18px;padding:6px;box-shadow:0 12px 40px rgba(0,0,0,0.7),0 0 0 1px rgba(212,175,80,0.15);width:100%;max-width:340px;overflow:hidden;">
-    <div id="qrcode" style="display:flex;justify-content:center;line-height:0;"></div>
+  <div style="background:#fff;border-radius:18px;padding:0;box-shadow:0 12px 40px rgba(0,0,0,0.7),0 0 0 1px rgba(212,175,80,0.15);width:calc(100% - 0px);max-width:320px;overflow:hidden;line-height:0;font-size:0;">
+    <div id="qrcode"></div>
   </div>
 </div>
 
@@ -1617,7 +1628,7 @@ letter-spacing: 0.02em;
       <div class="ef"><label>Company</label><input id="ef-co" value="New York Life Insurance Company"/></div>
       <div class="ef-section-title" style="margin-top:16px;">Contact Details</div>
       <div class="ef"><label>Phone</label><input id="ef-ph" value="929-363-5774"/></div>
-      <div class="ef"><label>Email</label><input id="ef-em" value="njbarthelemy@ft.newyorklife.com"/></div>
+      <div class="ef"><label>Email</label><input id="ef-em" id="ef-em-field" value=""/></div>
       <div class="ef"><label>Location</label><input id="ef-lo" value="New York, NY"/></div>
       <div class="ef"><label>Website URL</label><input id="ef-ws" value="https://www.newyorklife.com/agent/njbarthelemy"/></div>
       <div class="ef-section-title" style="margin-top:16px;">Social Media</div>
@@ -1732,7 +1743,7 @@ letter-spacing: 0.02em;
 // DAVE Premium JS
 function genUID(){try{var u=localStorage.getItem('dave_uid');if(!u||u.length!==8){u=String(Math.floor(10000000+Math.random()*90000000));localStorage.setItem('dave_uid',u);}return u;}catch(e){if(!window._duid)window._duid=String(Math.floor(10000000+Math.random()*90000000));return window._duid;}}
 var MY_UID=genUID();
-var P={cover:null,fn:'Nelson',mn:'Junior',ln:'Barthelemy',title:'Financial Professional',company:'New York Life Insurance Company',phone:'929-363-5774',email:'njbarthelemy@ft.newyorklife.com',location:'New York, NY',website:'https://www.newyorklife.com/agent/njbarthelemy',li:'nelson-barthelemy',ig:'nelsonjr',x:'nelsonfinance',fb:'nelsonbarthelemy',photo:null};
+var P={cover:null,fn:'Nelson',mn:'Junior',ln:'Barthelemy',title:'Financial Professional',company:'New York Life Insurance Company',phone:'929-363-5774',email:'njbarthelemy'+'@'+'ft.newyorklife.com',location:'New York, NY',website:'https://www.newyorklife.com/agent/njbarthelemy',li:'nelson-barthelemy',ig:'nelsonjr',x:'nelsonfinance',fb:'nelsonbarthelemy',photo:null};
 var connections=[{name:'Sarah Johnson',role:'Marketing Director',company:'TechCorp',how:'Conference',date:new Date(Date.now()-86400000*1),photo:null},{name:'Marcus Williams',role:'Real Estate Broker',company:'Williams Realty',how:'LinkedIn',date:new Date(Date.now()-86400000*4),photo:null},{name:'Priya Patel',role:'CPA',company:'Patel & Co',how:'Referral',date:new Date(Date.now()-86400000*9),photo:null}];
 var DEMO_CARDS={'12345678':{fn:'Alexandra',mn:'',ln:'Rivera',title:'Brand Strategist',company:'Rivera Creative',phone:'+1 (212) 555-0188',email:'alex@riveracreative.com',location:'Miami, FL',website:'https://riveracreative.com',photo:null},'87654321':{fn:'James',mn:'',ln:'Carter',title:'Investment Banker',company:'Carter Capital',phone:'+1 (646) 555-0242',email:'j.carter@cartercap.com',location:'New York, NY',website:'',photo:null}};
 var pendingCard=null,forwardingConn=null,activeConnIndex=-1,calYear=new Date().getFullYear(),calMonth=new Date().getMonth(),selDate=null,selTime=null,currentScreen='card',qrBuilt=false,scanStream=null,nameDroppingActive=false,ndPendingCard=null;
@@ -1849,9 +1860,17 @@ if(qrBuilt)return;
 var box=document.getElementById(‘qrcode’);
 if(!box)return;
 box.innerHTML=’’;
-var url=‘https://dave.app/’+slug()+’/’+MY_UID;
-if(typeof QRCode!==‘undefined’){try{new QRCode(box,{text:url,width:300,height:300,colorDark:’#000000’,colorLight:’#ffffff’,correctLevel:QRCode.CorrectLevel.M});qrBuilt=true;return;}catch(e){}}
-var c=document.createElement(‘canvas’);c.width=300;c.height=300;
+var url=‘https://fancy-baklava-c09388.netlify.app/?id=’+MY_UID;
+if(typeof QRCode!==‘undefined’){
+try{
+new QRCode(box,{text:url,width:400,height:400,colorDark:’#000000’,colorLight:’#ffffff’,correctLevel:QRCode.CorrectLevel.M});
+setTimeout(function(){var el=box.querySelector(‘canvas,img’);if(el){el.style.width=‘100%’;el.style.height=‘auto’;el.style.display=‘block’;el.style.margin=‘0’;el.style.padding=‘0’;}},200);
+qrBuilt=true;return;
+}catch(e){}
+}
+// Library not ready — retry
+setTimeout(function(){qrBuilt=false;buildQR();},600);
+var c=document.createElement(‘canvas’);c.width=400;c.height=400;c.style.cssText=‘width:100%;height:auto;display:block;margin:0;padding:0;border-radius:18px;’;
 var ctx=c.getContext(‘2d’);ctx.fillStyle=’#fff’;ctx.fillRect(0,0,160,160);
 function df(x,y){ctx.fillStyle=’#000’;ctx.fillRect(x,y,40,40);ctx.fillStyle=’#fff’;ctx.fillRect(x+6,y+6,28,28);ctx.fillStyle=’#000’;ctx.fillRect(x+11,y+11,18,18);}
 df(6,6);df(114,6);df(6,114);
@@ -2151,8 +2170,15 @@ inner.innerHTML = ‘<div style="text-align:center;"><div style="font-size:28px;
 document.addEventListener(‘DOMContentLoaded’, function() {
 tick();
 setInterval(tick, 1000);
+// Set email via JS to avoid Cloudflare obfuscation
+var em = ‘njbarthelemy’ + ‘@’ + ‘ft.newyorklife.com’;
+P.email = em;
+var efEl = document.getElementById(‘ef-em’);
+if(efEl) efEl.value = em;
 applyProfile();
 renderConns();
+// Retry QR in case CDN was slow
+setTimeout(function(){ if(!qrBuilt) buildQR(); }, 1500);
 });
 </script>
 
