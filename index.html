@@ -1311,29 +1311,66 @@ letter-spacing: 0.02em;
   <div class="scroll" id="cardScroll">
 
 ```
-<!-- ══ QR CODE (top, clean) ══ -->
-<div style="display:flex;justify-content:center;padding:16px 20px 20px;">
-  <div style="background:#fff;border-radius:18px;padding:16px;box-shadow:0 8px 32px rgba(0,0,0,0.6),0 0 0 1px rgba(212,175,80,0.2);">
-    <div id="qrcode"></div>
+<!-- ══════════════════════════════════
+     FIRST SCREEN — DAVE ID + BIG QR
+══════════════════════════════════ -->
+
+<!-- DAVE ID pill — top center, matching Image 2 -->
+<div style="display:flex;justify-content:center;padding:18px 20px 16px;">
+  <div onclick="copyUID()" style="
+    display:flex;align-items:center;justify-content:space-between;
+    background:linear-gradient(145deg,#1C1A14,#252015);
+    border:1px solid rgba(212,175,80,0.2);
+    border-radius:50px;
+    padding:14px 22px;
+    min-width:240px;max-width:300px;width:100%;
+    cursor:pointer;
+    box-shadow:0 4px 20px rgba(0,0,0,0.5),inset 0 1px 0 rgba(212,175,80,0.08);
+    transition:border-color 0.2s;
+  ">
+    <div style="display:flex;align-items:center;gap:14px;">
+      <span style="font-family:'Cinzel',serif;font-size:13px;color:#5C5040;font-weight:600;letter-spacing:0.08em;">ID</span>
+      <span id="headerUID" style="font-family:'Cinzel',serif;font-size:20px;font-weight:700;color:#D4AF50;letter-spacing:0.12em;">••••••••</span>
+    </div>
+    <div style="width:34px;height:34px;border-radius:50%;background:rgba(212,175,80,0.08);border:1px solid rgba(212,175,80,0.2);display:flex;align-items:center;justify-content:center;font-size:16px;color:#8B7340;">⎘</div>
   </div>
 </div>
 
-<!-- ══ COVER + PROFILE PHOTO SECTION ══ -->
-<div style="margin:0 20px 0;position:relative;">
+<!-- BIG QR CODE — full width, minimal padding, aesthetic -->
+<div style="display:flex;justify-content:center;padding:0 20px 16px;">
+  <div style="background:#fff;border-radius:18px;padding:6px;box-shadow:0 12px 40px rgba(0,0,0,0.7),0 0 0 1px rgba(212,175,80,0.15);width:100%;max-width:340px;overflow:hidden;">
+    <div id="qrcode" style="display:flex;justify-content:center;line-height:0;"></div>
+  </div>
+</div>
 
-  <!-- Cover photo -->
+<!-- Link pill below QR -->
+<div style="display:flex;justify-content:center;padding:0 20px 24px;">
+  <div class="qr-url-pill" onclick="copyLink()" style="display:inline-flex;">
+    <span>🔗</span><span id="qrSlug">newyorklife.com/agent/njbarthelemy</span>
+  </div>
+</div>
+
+<!-- Scroll hint -->
+<div style="text-align:center;font-size:10px;color:#3A3020;letter-spacing:0.2em;text-transform:uppercase;font-weight:600;padding-bottom:20px;">↓ &nbsp; Scroll</div>
+
+<!-- ══════════════════════════════════
+     BELOW FOLD — Cover + Profile + Info
+══════════════════════════════════ -->
+
+<!-- COVER PHOTO -->
+<div style="margin:0 20px 0;position:relative;">
   <div id="coverPhotoWrap" onclick="triggerCoverUpload()"
     style="width:100%;height:130px;border-radius:18px;background:linear-gradient(145deg,#1E1608,#2A1F0A);border:1px solid rgba(212,175,80,0.2);overflow:hidden;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;">
     <div id="coverPhotoInner" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">
       <div style="text-align:center;">
-        <div style="font-size:28px;opacity:0.3;margin-bottom:6px;">🖼️</div>
-        <div style="font-size:10px;color:#6B5C3A;letter-spacing:0.15em;text-transform:uppercase;font-weight:600;">Tap to add cover photo</div>
+        <div style="font-size:26px;opacity:0.25;margin-bottom:5px;">🖼️</div>
+        <div style="font-size:10px;color:#4A3E25;letter-spacing:0.15em;text-transform:uppercase;font-weight:600;">Tap to add cover photo</div>
       </div>
     </div>
-    <div style="position:absolute;bottom:8px;right:10px;background:rgba(212,175,80,0.15);border:1px solid rgba(212,175,80,0.3);border-radius:20px;padding:4px 10px;font-size:10px;color:#D4AF50;font-weight:700;font-family:'Cinzel',serif;">+ Cover</div>
+    <div style="position:absolute;bottom:8px;right:10px;background:rgba(212,175,80,0.12);border:1px solid rgba(212,175,80,0.25);border-radius:20px;padding:4px 10px;font-size:10px;color:#D4AF50;font-weight:700;font-family:'Cinzel',serif;">+ Cover</div>
   </div>
 
-  <!-- Profile photo — centered, overlapping bottom of cover -->
+  <!-- PROFILE PHOTO — centered, overlapping bottom of cover -->
   <div style="display:flex;justify-content:center;margin-top:-38px;margin-bottom:14px;position:relative;z-index:2;">
     <div style="position:relative;">
       <div class="profile-photo-ring" onclick="triggerPhotoUpload()" style="cursor:pointer;">
@@ -1344,36 +1381,25 @@ letter-spacing: 0.02em;
   </div>
 </div>
 
-<!-- ══ NAME + TITLE (below photos) ══ -->
+<!-- NAME + TITLE -->
 <div style="text-align:center;padding:0 20px 16px;">
   <div id="heroName" style="font-family:'Cinzel',serif;font-size:22px;font-weight:600;color:#F5EDD8;margin-bottom:5px;line-height:1.2;">Nelson <span class="name-accent">Junior</span> Barthelemy</div>
   <div id="heroTitle" style="font-size:10px;color:#8B7340;letter-spacing:0.18em;text-transform:uppercase;font-weight:600;margin-bottom:3px;">Financial Professional</div>
   <div id="heroCompany" style="font-size:12px;color:#D4AF50;font-weight:600;">New York Life Insurance Company</div>
 </div>
 
-<!-- ══ CONTACT INFO CARD ══ -->
+<!-- CONTACT INFO CARD -->
 <div class="card" style="margin:0 20px 14px;padding:16px 18px;position:relative;overflow:hidden;">
   <div class="card-glow"></div>
   <div style="display:flex;flex-direction:column;gap:9px;">
-    <a class="crow" id="de" href="#"><span class="crow-ico">✉️</span><span id="deT">njbarthelemy@ft.newyorklife.com</span></a>
+    <a class="crow" id="de" href="#"><span class="crow-ico">✉️</span><span id="deT"><span class="__cf_email__" data-cfemail="93fdf9f1f2e1e7fbf6fff6feead3f5e7bdfdf6e4eafce1f8fffaf5f6bdf0fcfe">[email&#160;protected]</span></span></a>
     <a class="crow" id="dp" href="#"><span class="crow-ico">📞</span><span id="dpT">929-363-5774</span></a>
     <div class="crow"><span class="crow-ico">📍</span><span id="dlT">New York, NY</span></div>
     <a class="crow" id="dw" href="#" target="_blank"><span class="crow-ico">🌐</span><span id="dwT">newyorklife.com/agent/njbarthelemy</span></a>
   </div>
-  <!-- DAVE ID pill -->
-  <div class="uid-pill" onclick="copyUID()" style="margin-top:14px;">
-    <div class="uid-pill-left">
-      <span class="uid-pill-label">DAVE ID&nbsp;&nbsp;</span>
-      <span class="uid-pill-value" id="headerUID">••••••••</span>
-    </div>
-    <div style="display:flex;align-items:center;gap:6px;background:rgba(212,175,80,0.15);border:1px solid rgba(212,175,80,0.3);border-radius:8px;padding:5px 12px;">
-      <span style="font-size:12px;">⎘</span>
-      <span style="font-size:11px;color:#D4AF50;font-weight:700;letter-spacing:0.08em;font-family:'Cinzel',serif;">Copy</span>
-    </div>
-  </div>
 </div>
 
-<!-- ══ PREMIUM ACTION PILLS ══ -->
+<!-- PREMIUM ACTION PILLS -->
 <div class="action-pills">
   <div class="pill-gold" onclick="goTo('share')">
     <div class="pill-gold-left"><span class="pill-gold-ico">📤</span><span class="pill-gold-lbl">Share My Card</span></div>
@@ -1389,7 +1415,7 @@ letter-spacing: 0.02em;
   </div>
 </div>
 
-<!-- ══ SOCIALS ══ -->
+<!-- SOCIALS -->
 <div class="social-section">
   <div class="sec-hdr">Connect Online</div>
   <div class="soc-grid">
@@ -1702,7 +1728,7 @@ letter-spacing: 0.02em;
 
 <div class="toast" id="toast"></div>
 </div>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // DAVE Premium JS
 function genUID(){try{var u=localStorage.getItem('dave_uid');if(!u||u.length!==8){u=String(Math.floor(10000000+Math.random()*90000000));localStorage.setItem('dave_uid',u);}return u;}catch(e){if(!window._duid)window._duid=String(Math.floor(10000000+Math.random()*90000000));return window._duid;}}
 var MY_UID=genUID();
@@ -1747,6 +1773,7 @@ var dlink=‘dave.app/’+sl;
 if(qsl)qsl.textContent=dlink;
 if(shl)shl.textContent=dlink;
 if(lu)lu.textContent=dlink;
+var dlTel=document.getElementById(‘dlT’);if(dlTel)dlTel.textContent=P.location;
 var hn=document.getElementById(‘heroName’),ht=document.getElementById(‘heroTitle’),hc=document.getElementById(‘heroCompany’);
 if(hn)hn.innerHTML=P.fn+’ <span class="name-accent">’+P.mn.charAt(0)+’.</span> ‘+P.ln;
 if(ht)ht.textContent=P.title;
@@ -1823,8 +1850,8 @@ var box=document.getElementById(‘qrcode’);
 if(!box)return;
 box.innerHTML=’’;
 var url=‘https://dave.app/’+slug()+’/’+MY_UID;
-if(typeof QRCode!==‘undefined’){try{new QRCode(box,{text:url,width:160,height:160,colorDark:’#000000’,colorLight:’#ffffff’,correctLevel:QRCode.CorrectLevel.M});qrBuilt=true;return;}catch(e){}}
-var c=document.createElement(‘canvas’);c.width=160;c.height=160;
+if(typeof QRCode!==‘undefined’){try{new QRCode(box,{text:url,width:300,height:300,colorDark:’#000000’,colorLight:’#ffffff’,correctLevel:QRCode.CorrectLevel.M});qrBuilt=true;return;}catch(e){}}
+var c=document.createElement(‘canvas’);c.width=300;c.height=300;
 var ctx=c.getContext(‘2d’);ctx.fillStyle=’#fff’;ctx.fillRect(0,0,160,160);
 function df(x,y){ctx.fillStyle=’#000’;ctx.fillRect(x,y,40,40);ctx.fillStyle=’#fff’;ctx.fillRect(x+6,y+6,28,28);ctx.fillStyle=’#000’;ctx.fillRect(x+11,y+11,18,18);}
 df(6,6);df(114,6);df(6,114);
@@ -2117,13 +2144,15 @@ if (!inner) return;
 if (P.cover) {
 inner.innerHTML = ‘<img src="' + P.cover + '" style="width:100%;height:100%;object-fit:cover;"/>’;
 } else {
-inner.innerHTML = ‘<div style="text-align:center;"><div style="font-size:28px;opacity:0.3;margin-bottom:6px;">🖼️</div><div style="font-size:10px;color:#6B5C3A;letter-spacing:0.15em;text-transform:uppercase;font-weight:600;">Tap to add cover photo</div></div>’;
+inner.innerHTML = ‘<div style="text-align:center;"><div style="font-size:28px;opacity:0.3;margin-bottom:6px;">🖼️</div><div style="font-size:10px;color:#4A3E25;letter-spacing:0.15em;text-transform:uppercase;font-weight:600;">Tap to add cover photo</div></div>’;
 }
 }
 
-document.addEventListener(‘DOMContentLoaded’,function(){
-tick();setInterval(tick,1000);
-applyProfile();renderConns();renderActivity();
+document.addEventListener(‘DOMContentLoaded’, function() {
+tick();
+setInterval(tick, 1000);
+applyProfile();
+renderConns();
 });
 </script>
 
